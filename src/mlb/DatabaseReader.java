@@ -114,13 +114,33 @@ public class DatabaseReader {
         Team team = null;
         // TODO: Retrieve team info (roster, address, and logo) from the database
         
+        //String sql3 = "select team,site,street,city,state,zip,phone,url from address where team = '"+team_idpk+"';";
+        //String sql = "select idpk from team where name = '"+teamName+"';";
+        
+        
         Statement stat;
         ResultSet results;  
-        team = new Team();
+        
+        //team = new Team();
         ArrayList<Player> roster = new ArrayList<Player>();
         
         this.connect();
         try {
+            String sql_g = "select id,abbr,conference, division from team where name = '"+teamName+"';";        
+            Statement stat_g;
+            ResultSet result_g;
+            stat_g = this.db_connection.createStatement();          
+            result_g = stat_g.executeQuery(sql_g);
+            String conf_g = result_g.getString("conference");
+            String div_g = result_g.getString("division");
+            String id_g = result_g.getString("id");
+            String abbr_g = result_g.getString("abbr");
+            
+            //public Team(String _id, String _abbr, String _name, String _conf, String _div) {
+            team = new Team(id_g,abbr_g,teamName,conf_g,div_g);
+            
+            
+            
             stat = this.db_connection.createStatement();          
             String sql = "select idpk from team where name = '"+teamName+"';";
             results = stat.executeQuery(sql);
